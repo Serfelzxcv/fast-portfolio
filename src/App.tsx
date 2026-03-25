@@ -236,13 +236,6 @@ function App() {
     setIsMenuOpen(false)
   }
 
-  const openProject = (project: Project) => {
-    setActiveProject(project)
-
-    if (project.href) {
-      window.open(project.href, '_blank', 'noopener,noreferrer')
-    }
-  }
 
   return (
     <main className={`hero-page theme-${theme}`}>
@@ -404,22 +397,7 @@ function App() {
 
         {activePage === 'proyectos' ? (
           <section className="projects-page page-enter" aria-label="Vista de proyectos">
-            <div
-              className={`projects-preview ${activeProject.tone}${activeProject.href ? ' projects-preview--clickable' : ''}`}
-              onClick={() => {
-                if (activeProject.href) {
-                  openProject(activeProject)
-                }
-              }}
-              role={activeProject.href ? 'link' : undefined}
-              tabIndex={activeProject.href ? 0 : -1}
-              onKeyDown={(event) => {
-                if (activeProject.href && (event.key === 'Enter' || event.key === ' ')) {
-                  event.preventDefault()
-                  openProject(activeProject)
-                }
-              }}
-            >
+            <div className={`projects-preview ${activeProject.tone}`}>
               <div className="projects-preview__frame">
                 <ProjectCarousel images={activeProject.images} title={activeProject.title} />
               </div>
@@ -445,13 +423,21 @@ function App() {
               </div>
               <div className="projects-list">
                 {projects.map((project) => (
-                  <button
+                  <div
                     key={project.title}
                     className={`project-row${activeProject.title === project.title ? ' project-row--active' : ''}`}
-                    type="button"
+                    role="button"
+                    tabIndex={0}
                     onMouseEnter={() => setActiveProject(project)}
                     onFocus={() => setActiveProject(project)}
-                    onClick={() => openProject(project)}
+                    onClick={() => setActiveProject(project)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        setActiveProject(project)
+                      }
+                    }}
+                    aria-pressed={activeProject.title === project.title}
                   >
                     <div className="project-row__info">
                       <strong>{project.title}</strong>
@@ -459,9 +445,22 @@ function App() {
                     </div>
                     <div className="project-row__meta">
                       <span className="project-row__year">{project.year}</span>
-                      <span className="project-row__arrow"><IconArrow /></span>
+                      {project.href ? (
+                        <a
+                          className="project-row__arrow"
+                          href={project.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`Abrir ${project.title}`}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <IconArrow />
+                        </a>
+                      ) : (
+                        <span className="project-row__arrow"><IconArrow /></span>
+                      )}
                     </div>
-                  </button>
+                  </div>
                 ))}
               </div>
             </div>
