@@ -1,0 +1,52 @@
+:root {
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #000000;
+  background: #ffffff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --blue: #105cff;
+  --orange: #ff7b00;
+  --black: #000000;
+  --white: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(16, 92, 255, 0.08), transparent 24%),
+    linear-gradient(315deg, rgba(255, 123, 0, 0.08), transparent 22%),
+    #ffffff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+p,
+ h1 {
+  margin: 0;
+}
+
+#root {
+  min-height: 100vh;
+}
